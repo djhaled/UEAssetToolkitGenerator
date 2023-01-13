@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using UAssetAPI;
+
 namespace CookedAssetSerializer.AssetTypes;
 
 public class BlueprintSerializer : Serializer<ClassExport>
@@ -43,13 +47,13 @@ public class BlueprintSerializer : Serializer<ClassExport>
 
         // Serialize the blueprint's functions
         var assetChildren = new JArray();
-        foreach (var package in ClassExport.Children) 
-        {
-            if (Asset.Exports[package.Index - 1] is FunctionExport func)
-            {
-                assetChildren.Add(SerializeFunction(func, AssetInfo));
-            }
-        }
+        //foreach (var package in ClassExport.Children) 
+        //{
+            //if (Asset.Exports[package.Index - 1] is FunctionExport func)
+            //{
+                //assetChildren.Add(SerializeFunction(func, AssetInfo));
+            //}
+        //}
         
         // Serialize the blueprint's children
         if (Asset.assetType != EAssetType.AnimBlueprint) AssetData.Add("Children", !dummy ? assetChildren : new JArray());
@@ -80,21 +84,27 @@ public class BlueprintSerializer : Serializer<ClassExport>
         
         WriteJsonOut(ObjectHierarchy(AssetInfo, ref RefObjects));
     }
-    
+
     private void FixMovieSceneSections()
     {
         foreach (var normal in Asset.Exports.Cast<NormalExport>())
         {
-            if (normal.ClassIndex.Index < 0 && normal.ClassIndex.ToImport(Asset).ObjectName.ToName() == "MovieScene2DTransformSection") {
+            if (normal.ClassIndex.Index < 0 && normal.ClassIndex.ToImport(Asset).ObjectName.ToName() == "MovieScene2DTransformSection")
+            {
                 PopulateMovieScene2DTransformSection(ref normal.Data, "Translation");
                 PopulateMovieScene2DTransformSection(ref normal.Data, "Scale");
                 PopulateMovieScene2DTransformSection(ref normal.Data, "Shear");
             }
-            if (normal.ClassIndex.Index < 0 && normal.ClassIndex.ToImport(Asset).ObjectName.ToName() == "MovieSceneVectorSection") {
+            if (normal.ClassIndex.Index < 0 && normal.ClassIndex.ToImport(Asset).ObjectName.ToName() == "MovieSceneVectorSection")
+            {
                 PopulateMovieScene2DTransformSection(ref normal.Data, "Curves", 4);
             }
         }
     }
+
+
+
+
 
     private void PopulateMovieScene2DTransformSection(ref List<PropertyData> data, string propName, int v = 2)
     {

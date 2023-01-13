@@ -238,7 +238,7 @@ public class UAsset {
     /// <summary>
     /// The version of the Unreal Engine that will be used to parse this asset.
     /// </summary>
-    public UE4Version EngineVersion = UE4Version.UNKNOWN;
+    public UE4Version EngineVersion = UE4Version.VER_UE4_23;
 
     /// <summary>
     /// Checks whether or not this asset maintains binary equality when serialized.
@@ -980,6 +980,8 @@ public class UAsset {
         }
         ThumbnailTableOffset = reader.ReadInt32();
 
+        reader.BaseStream.Seek(8, SeekOrigin.Current);
+
         PackageGuid = new Guid(reader.ReadBytes(16));
 
         Generations = new List<FGenerationInfo>();
@@ -1373,11 +1375,12 @@ public class UAsset {
                         }
                     }
                     catch (Exception ex) {
-#if DEBUG
+
                     Debug.WriteLine("\nFailed to parse export " + (i + 1) + ": " + ex.ToString());
-#endif
+
                         reader.BaseStream.Seek(Exports[i].SerialOffset, SeekOrigin.Begin);
                         Exports[i] = Exports[i].ConvertToChildExport<RawExport>();
+                        var nab = Exports[i].ConvertToChildExport<RawExport>();
                         ((RawExport)Exports[i]).Data = reader.ReadBytes((int)Exports[i].SerialSize);
                     }
                 }

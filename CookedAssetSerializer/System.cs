@@ -234,9 +234,8 @@ public class System
         {
             PrintOutput("Serializing " + file, "Serialize Assets");
             AssetCount++;
-            
-            UAsset asset = new UAsset(file, Settings.GlobalUEVersion, true);
 
+            UAsset asset = new UAsset(file, Settings.GlobalUEVersion, true);
             if (Settings.SkipSerialization.Contains(asset.assetType) || CheckPNGAsset(file))
             {
                 PrintOutput("Skipped serialization on " + file, "Serialize Assets");
