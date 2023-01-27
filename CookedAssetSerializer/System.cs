@@ -256,6 +256,8 @@ public class System
                     switch (asset.assetType)
                     {
                         case EAssetType.Blueprint:
+                        case EAssetType.VAL_UIData:
+                        case EAssetType.VAL_PrimaryAsset:
                         case EAssetType.WidgetBlueprint:
                         case EAssetType.AnimBlueprint:
                             skip = new BlueprintSerializer(Settings, asset, false).IsSkipped;
@@ -276,6 +278,9 @@ public class System
                             skip = new AnimSequenceSerializer(Settings, asset).IsSkipped;
                             break;
                         case EAssetType.AnimMontage:
+                            skip = new DummyWithProps(Settings, asset).IsSkipped;
+                            break;
+                        case EAssetType.ParticleSystem:
                             skip = new DummyWithProps(Settings, asset).IsSkipped;
                             break;
                         case EAssetType.CameraAnim:

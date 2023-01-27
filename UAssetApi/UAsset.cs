@@ -92,11 +92,14 @@ public enum EAssetType : sbyte {
     StringTable,
     UserDefinedEnum,
     UserDefinedStruct,
+    VAL_PrimaryAsset,
+    VAL_UIData,
     Texture2D,
     Material,
     Font,
     FontFace,
     BlendSpaceBase,
+    ParticleSystem,
     CurveBase,
     AnimSequence,
     //CurveLinearColorAtlas,
@@ -130,12 +133,22 @@ public class UAsset {
             string type = Exports[mainExport-1].ClassIndex.ToImport(this).ObjectName.ToName();
             switch (type) {
 
-                case "BlueprintGeneratedClass": return EAssetType.Blueprint;
+                case "BlueprintGeneratedClass": 
+                    if (Exports[0].ObjectName.ToString().ToLower().Contains("primaryasset") || Exports[0].ObjectName.ToString().ToLower().Contains("primarydataasset"))
+                    {
+                        return EAssetType.VAL_PrimaryAsset;
+                    }
+                    if (Exports[0].ObjectName.ToString().ToLower().Contains("uidata"))
+                    {
+                        return EAssetType.VAL_UIData;
+                    }
+                    return EAssetType.Blueprint;
                 case "WidgetBlueprintGeneratedClass": return EAssetType.WidgetBlueprint;
                 case "AnimBlueprintGeneratedClass": return EAssetType.AnimBlueprint;
 
                 case "DataTable": return EAssetType.DataTable;
                 case "StringTable": return EAssetType.StringTable;
+                case "ParticleSystem": return EAssetType.ParticleSystem;
                 case "UserDefinedEnum": return EAssetType.UserDefinedEnum;
                 case "UserDefinedStruct": return EAssetType.UserDefinedStruct;
 
@@ -169,7 +182,7 @@ public class UAsset {
                 case "MediaPlayer": return EAssetType.MediaPlayer;
                 case "MediaTexture": return EAssetType.MediaTexture;
                 case "FileMediaSource": return EAssetType.FileMediaSource;
-                case "PhycialMaterial": return EAssetType.PhycialMaterial;
+                case "PhysicalMaterial": return EAssetType.PhycialMaterial;
                 case "SubsurfaceProfile": return EAssetType.SubsurfaceProfile;
 
                 case "SoundCue": return EAssetType.SoundCue;

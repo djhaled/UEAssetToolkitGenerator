@@ -1,2 +1,0 @@
-2023-01-13 16:10:47.904 [Serialize Assets]: 0/1 Serializing C:\Users\BERNA\Documents\Useful\FModel\Output\Exports\ShooterGame\Content\UI\InGame\HUD\KillCallout\KillFeed_Assists\KillFeedRow.uasset
-2023-01-13 16:10:48.029 [Serialize Assets]: 1/1 C:\Users\BERNA\Documents\Useful\FModel\Output\Exports\ShooterGame\Content\UI\InGame\HUD\KillCallout\KillFeed_Assists\KillFeedRow.uasset
