@@ -940,7 +940,7 @@ public partial class MainForm : Form
         string[] Files = Array.Empty<string>();
         try
         {
-           Files = Directory.GetFiles(dir, "*.uasset");
+            Files = Directory.GetFiles(dir, "*.uasset");
             // Loop through them to see files  
             foreach (string file in Files)
             {
@@ -1036,7 +1036,7 @@ public partial class MainForm : Form
             {
                 var subfullpaths = fullpaths.Where(s => IsSubPathOf(s, nodepath)).ToList();
                 fullpaths = fullpaths.Except(subfullpaths).ToList();
-                if (!node.Name.EndsWith("uasset"))
+                if (!node.Name.EndsWith("uasset") )
                 {
                     LoadSubDirectories(node.Name, node);
                     LoadFiles(node.Name, node);
@@ -1136,7 +1136,7 @@ public partial class MainForm : Form
         {
             if (node.Nodes.Count == 0)
             {
-                if (!node.Name.EndsWith("uasset"))
+                if (!node.Name.EndsWith("uasset") )
                 {
                     LoadSubDirectories(node.Name, node);
                     LoadFiles(node.Name, node);
@@ -1194,7 +1194,7 @@ public partial class MainForm : Form
     private void openSelectedTreeNode()
     {
         var path = treeParseDir.SelectedNode?.Name;
-        if (path is not null && path.EndsWith("uasset")) path = Path.GetDirectoryName(path);
+        if (path is not null && path.EndsWith("uasset")  ) path = Path.GetDirectoryName(path);
         if (!Directory.Exists(path)) return;
 
         ProcessStartInfo startInfo = new ProcessStartInfo

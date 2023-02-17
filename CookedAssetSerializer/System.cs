@@ -258,6 +258,8 @@ public class System
                         case EAssetType.Blueprint:
                         case EAssetType.VAL_UIData:
                         case EAssetType.VAL_PrimaryAsset:
+                        case EAssetType.VAL_Ability:
+                        case EAssetType.CharacterPC:
                         case EAssetType.WidgetBlueprint:
                         case EAssetType.AnimBlueprint:
                             skip = new BlueprintSerializer(Settings, asset, false).IsSkipped;
@@ -291,6 +293,9 @@ public class System
                             break;
                         case EAssetType.MediaPlayer:
                             skip = new DummyWithProps(Settings, asset).IsSkipped;
+                            break;
+                        case EAssetType.Map:
+                            skip = new BlueprintSerializer(Settings, asset,false).IsSkipped;
                             break;
                         case EAssetType.MediaTexture:
                             skip = new DummySerializer(Settings, asset).IsSkipped;
@@ -369,13 +374,13 @@ public class System
             if (Settings.ParseDir.Count == 1 && Settings.ParseDir[0].Equals("."))
             {
                 ret.AddRange(Directory.GetFiles(fromDir,
-                    "*.uasset", SearchOption.AllDirectories));
+                                    "*.uasset", SearchOption.AllDirectories));
             }
             else
             {
                 foreach (var dir in Settings.ParseDir)
                 {
-                    if (dir.EndsWith("uasset"))
+                    if (dir.EndsWith("uasset") )
                     {
                         ret.Add(Path.Combine(fromDir, dir));
                     }
@@ -383,6 +388,7 @@ public class System
                     {
                         ret.AddRange(Directory.GetFiles(Path.Combine(fromDir, dir),
                             "*.uasset", SearchOption.AllDirectories));
+
                     }
                 }
             }

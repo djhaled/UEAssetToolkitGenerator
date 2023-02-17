@@ -93,6 +93,8 @@ public enum EAssetType : sbyte {
     UserDefinedEnum,
     UserDefinedStruct,
     VAL_PrimaryAsset,
+    CharacterPC,
+    VAL_Ability,
     VAL_UIData,
     Texture2D,
     Material,
@@ -104,7 +106,10 @@ public enum EAssetType : sbyte {
     AnimSequence,
     //CurveLinearColorAtlas,
     SkeletalMesh,
+    AKEvent,
+    AKMedia,
     Skeleton,
+    Map,
     StaticMesh,
     AnimMontage,
     CameraAnim,
@@ -131,6 +136,10 @@ public class UAsset {
     private EAssetType GetAssetType() {
         if (mainExport != 0) {
             string type = Exports[mainExport-1].ClassIndex.ToImport(this).ObjectName.ToName();
+            if (FilePath.EndsWith(".umap"))
+            {
+                type = Exports[Exports.Count - 1].ClassIndex.ToImport(this).ObjectName.ToName();
+            }
             switch (type) {
 
                 case "BlueprintGeneratedClass": 
@@ -141,6 +150,19 @@ public class UAsset {
                     if (Exports[0].ObjectName.ToString().ToLower().Contains("uidata"))
                     {
                         return EAssetType.VAL_UIData;
+                    }
+                    if (Exports[0].ObjectName.ToString().EndsWith("_PC_C"))
+                    {
+                        return EAssetType.CharacterPC;
+                    }
+                    string fileName = Path.GetFileNameWithoutExtension(FilePath);
+                    if (fileName.ToString().StartsWith("Ability"))
+                    {
+                        return EAssetType.VAL_Ability;
+                    }
+                    if (FilePath.ToString().EndsWith(".umap"))
+                    {
+                        return EAssetType.Map;
                     }
                     return EAssetType.Blueprint;
                 case "WidgetBlueprintGeneratedClass": return EAssetType.WidgetBlueprint;
@@ -169,7 +191,7 @@ public class UAsset {
                 case "CurveFloat":
                 case "CurveLinearColor":
                 case "CurveVector": return EAssetType.CurveBase;
-                
+                case "World": return EAssetType.Map;
                 case "AnimSequence": return EAssetType.AnimSequence;
                 case "SkeletalMesh": return EAssetType.SkeletalMesh;
                 case "Skeleton": return EAssetType.Skeleton;
@@ -184,7 +206,8 @@ public class UAsset {
                 case "FileMediaSource": return EAssetType.FileMediaSource;
                 case "PhysicalMaterial": return EAssetType.PhycialMaterial;
                 case "SubsurfaceProfile": return EAssetType.SubsurfaceProfile;
-
+                case "AKMediaAsset": return EAssetType.AKMedia;
+                case "AkAudioEvent":  return EAssetType.AKEvent;
                 case "SoundCue": return EAssetType.SoundCue;
                 //case "MaterialFunction": return EAssetType.MaterialFunction;
 

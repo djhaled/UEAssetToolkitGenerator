@@ -47,7 +47,7 @@ public class BlueprintSerializer : Serializer<ClassExport>
 
         // Serialize the blueprint's functions
         var assetChildren = new JArray();
-        //foreach (var package in ClassExport.Children) 
+       // foreach (var package in ClassExport.Children) 
         //{
             //if (Asset.Exports[package.Index - 1] is FunctionExport func)
             //{
